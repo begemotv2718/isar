@@ -291,7 +291,8 @@ isar_bootstrap() {
             do
                 kfn="$(basename $keyfile)"
                 cp $keyfile "${ROOTFSDIR}/tmp/$kfn"
-                sudo -E chroot "${ROOTFSDIR}" /usr/bin/strace -e open,connect /usr/bin/apt-key \
+                sudo -E chroot "${ROOTFSDIR}" /bin/cat /usr/bin/apt-key
+                sudo -E chroot "${ROOTFSDIR}"  /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} add "/tmp/$kfn"
                 rm "${ROOTFSDIR}/tmp/$kfn"
             done
