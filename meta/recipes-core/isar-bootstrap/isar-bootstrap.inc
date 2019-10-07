@@ -26,7 +26,8 @@ DISTRO_BOOTSTRAP_KEYFILES = ""
 THIRD_PARTY_APT_KEYFILES = ""
 DEPLOY_ISAR_BOOTSTRAP ?= ""
 DISTRO_BOOTSTRAP_BASE_PACKAGES = "locales"
-DISTRO_BOOTSTRAP_BASE_PACKAGES_append_gnupg = ",gnupg"
+DISTRO_BOOTSTRAP_BASE_PACKAGES_append = ",strace"
+DISTRO_BOOTSTRAP_BASE_PACKAGES_append = ",gnupg"
 DISTRO_BOOTSTRAP_BASE_PACKAGES_append_https-support = ",apt-transport-https,ca-certificates"
 HOST_DISTRO_APT_SOURCES += "conf/distro/${HOST_DISTRO}.list"
 
@@ -290,7 +291,7 @@ isar_bootstrap() {
             do
                 kfn="$(basename $keyfile)"
                 cp $keyfile "${ROOTFSDIR}/tmp/$kfn"
-                sudo -E chroot "${ROOTFSDIR}" /usr/bin/apt-key \
+                sudo -E chroot "${ROOTFSDIR}" /usr/bin/strace -e open,connect /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} add "/tmp/$kfn"
                 rm "${ROOTFSDIR}/tmp/$kfn"
             done
