@@ -292,7 +292,7 @@ isar_bootstrap() {
                 kfn="$(basename $keyfile)"
                 cp $keyfile "${ROOTFSDIR}/tmp/$kfn"
                 sudo -E chroot "${ROOTFSDIR}" /bin/sed -i -e "s/--ignore-time-conflict/-vv --ignore-time-conflict/g" /usr/bin/apt-key
-                sudo -E chroot "${ROOTFSDIR}"  /usr/bin/apt-key \
+                sudo -E strace -f -e open,connect chroot "${ROOTFSDIR}"  /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} add "/tmp/$kfn"
                 rm "${ROOTFSDIR}/tmp/$kfn"
             done
