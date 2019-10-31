@@ -296,7 +296,7 @@ isar_bootstrap() {
                 echo "${MY_GPGHOME}"
 
                 sudo -E strace -f -e open,execve,connect,socket,write -s 255 -tt  -o ${WORKDIR}/strace.log chroot "${ROOTFSDIR}" /usr/bin/gpg-agent --homedir "${MY_GPGHOME}" --daemon /bin/bash -c "apt-key \
-                   --keyring ${THIRD_PARTY_APT_KEYRING} --homedir ${MY_GPGHOME} --add /tmp/$kfn"
+                   --keyring ${THIRD_PARTY_APT_KEYRING} --homedir ${MY_GPGHOME} add /tmp/$kfn"
                 rm "${ROOTFSDIR}/tmp/$kfn"
             done
 
