@@ -298,9 +298,12 @@ isar_bootstrap() {
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/gpg-agent --homedir "${MY_GPGHOME}" --daemon 
                 sudo -E strace -f -e open,execve,connect,socket,write -s 255 -tt  -o ${WORKDIR}/strace.log chroot "${ROOTFSDIR}" /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} --homedir ${MY_GPGHOME} add /tmp/"$kfn"
+                GNUPGHOME="${MY_GPGHOME}"  sudo -E chroot "${ROOTFSDIR}" gpgconf --kill gpg-agent
                 sudo -E ps -ef | grep 'gpg'
+                sleep 4
 
                 rm "${ROOTFSDIR}/tmp/$kfn"
+                rm  -rf "${MY_GPGHOME}"
             done
 
             if [ "${@get_distro_suite(d, True)}" = "stretch" ] && [ "${@get_host_release().split('.')[0]}" -lt "4" ]; then
