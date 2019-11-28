@@ -298,11 +298,11 @@ isar_bootstrap() {
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/gpg-agent --homedir "${MY_GPGHOME}" --daemon 
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} --homedir ${MY_GPGHOME} add /tmp/"$kfn"
-                sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
-                sudo -E ps -ef | grep 'gpg'
                 sleep 4
 
                 rm "${ROOTFSDIR}/tmp/$kfn"
+                sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
+                sudo -E ps -ef | grep 'gpg'
                 rm  -rf "${MY_GPGHOME}"
             done
 
