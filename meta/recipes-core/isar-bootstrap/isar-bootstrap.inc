@@ -296,9 +296,9 @@ isar_bootstrap() {
                 echo "${MY_GPGHOME}"
 
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/gpg-agent --homedir "${MY_GPGHOME}" --daemon 
-                sudo -E strace -f -e open,execve,connect,socket,write -s 255 -tt  -o ${WORKDIR}/strace.log chroot "${ROOTFSDIR}" /usr/bin/apt-key \
+                sudo -E chroot "${ROOTFSDIR}" /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} --homedir ${MY_GPGHOME} add /tmp/"$kfn"
-                GNUPGHOME="${MY_GPGHOME}"  sudo -E chroot "${ROOTFSDIR}" gpgconf --kill gpg-agent
+                sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
                 sudo -E ps -ef | grep 'gpg'
                 sleep 4
 
