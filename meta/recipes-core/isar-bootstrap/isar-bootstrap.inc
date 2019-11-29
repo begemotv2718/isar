@@ -301,6 +301,7 @@ isar_bootstrap() {
                 sleep 4
 
                 rm "${ROOTFSDIR}/tmp/$kfn"
+                sudo -E chroot "${ROOTFSDIR}" /bin/ls -l /usr/bin/pkill
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
                 #sudo -E ps -ef | grep 'gpg'
                 rm  -rf "${MY_GPGHOME}"
