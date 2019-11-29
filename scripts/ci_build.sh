@@ -45,14 +45,16 @@ TARGETS_SET="\
           # multiconfig:qemuarm64-bullseye:isar-image-base
 
 CROSS_TARGETS_SET="\
-                  multiconfig:qemuarm-stretch:isar-image-base \
-                  multiconfig:qemuarm-buster:isar-image-base \
-                  multiconfig:qemuarm-bullseye:isar-image-base \
-                  multiconfig:qemuarm64-stretch:isar-image-base \
-                  multiconfig:qemuamd64-stretch:isar-image-base \
-                  multiconfig:de0-nano-soc-stretch:isar-image-base \
-                  multiconfig:rpi-stretch:isar-image-base"
-
+    multiconfig:rpi-stretch:isar-image-base"
+#CROSS_TARGETS_SET="\
+#                  multiconfig:qemuarm-stretch:isar-image-base \
+#                  multiconfig:qemuarm-buster:isar-image-base \
+#                  multiconfig:qemuarm-bullseye:isar-image-base \
+#                  multiconfig:qemuarm64-stretch:isar-image-base \
+#                  multiconfig:qemuamd64-stretch:isar-image-base \
+#                  multiconfig:de0-nano-soc-stretch:isar-image-base \
+#                  multiconfig:rpi-stretch:isar-image-base"
+#
 REPRO_TARGETS_SET="\
             multiconfig:qemuarm-stretch:isar-image-base \
             multiconfig:qemuarm64-stretch:isar-image-base \
