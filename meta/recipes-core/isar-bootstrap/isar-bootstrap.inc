@@ -304,7 +304,7 @@ isar_bootstrap() {
                 sudo -E chroot "${ROOTFSDIR}" /bin/ls -l /usr/bin/pkill
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
                 #sudo -E ps -ef | grep 'gpg'
-                rm  -rf "${MY_GPGHOME}"
+                sudo -E chroot "${ROOTFSDIR}" /bin/rm  -rf "${MY_GPGHOME}"
             done
 
             if [ "${@get_distro_suite(d, True)}" = "stretch" ] && [ "${@get_host_release().split('.')[0]}" -lt "4" ]; then
