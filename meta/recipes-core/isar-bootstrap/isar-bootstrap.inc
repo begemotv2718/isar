@@ -302,8 +302,10 @@ isar_bootstrap() {
                 rm "${ROOTFSDIR}/tmp/$kfn"
             done
             sleep 4
-            sudo -E chroot "${ROOTFSDIR}" /bin/ls -l /usr/bin/pkill
-            sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
+            GPG_AGENT_PID=$(sudo -E chroot "${ROOTFSDIR}" /bin/bash -c "ps -aux | grep \"gpg-agent.*${MYGPGHOME}\" | grep -v grep | awk -e \'{print \$2}\'")
+            echo "Agent pid: $GPG_AGENT_PID"
+            sudo -E chroot "${ROOTFSDIR}" /bin/kill -9 ${GPG_AGENT_PID}
+            sleep 4
             sudo -E ps -ef | grep 'gpg'
             sudo -E chroot "${ROOTFSDIR}" /bin/rm  -rf "${MY_GPGHOME}"
 
