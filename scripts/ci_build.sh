@@ -116,7 +116,7 @@ do
         #REPRO_BUILD="1"
         #case "$2" in
         #-s|--sign) SIGN_REPO='1'; shift ;;
-        esac
+        #esac
         ;;
     *)
         echo "error: invalid parameter '$key', please try '--help' to get list of supported parameters"
