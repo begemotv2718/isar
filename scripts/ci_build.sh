@@ -21,7 +21,7 @@ BUILD_DIR=./build
 BB_ARGS="-v"
 
 TARGETS_SET="\
-    multiconfig:rpi-stretch:isar-image-base"
+    multiconfig:qemuamd64-stretch:isar-image-base"
 
 #TARGETS_SET="\
 #            multiconfig:qemuarm-stretch:isar-image-base \
@@ -45,7 +45,7 @@ TARGETS_SET="\
           # multiconfig:qemuarm64-bullseye:isar-image-base
 
 CROSS_TARGETS_SET="\
-    multiconfig:rpi-stretch:isar-image-base"
+    multiconfig:qemuamd64-stretch:isar-image-base"
 #CROSS_TARGETS_SET="\
 #                  multiconfig:qemuarm-stretch:isar-image-base \
 #                  multiconfig:qemuarm-buster:isar-image-base \
@@ -113,9 +113,9 @@ do
         BB_ARGS=""
         ;;
     -r|--repro)
-        REPRO_BUILD="1"
-        case "$2" in
-        -s|--sign) SIGN_REPO='1'; shift ;;
+        #REPRO_BUILD="1"
+        #case "$2" in
+        #-s|--sign) SIGN_REPO='1'; shift ;;
         esac
         ;;
     *)
