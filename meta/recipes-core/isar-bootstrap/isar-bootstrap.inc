@@ -287,21 +287,21 @@ isar_bootstrap() {
             mkdir -p "${ROOTFSDIR}/etc/apt/apt.conf.d"
             install -v -m644 "${WORKDIR}/isar-apt.conf" \
                              "${ROOTFSDIR}/etc/apt/apt.conf.d/50isar.conf"
-            find ${APT_KEYS_DIR}/ -type f | while read keyfile
             sudo -E chroot "${ROOTFSDIR}" /bin/sed -i -e "s/--ignore-time-conflict/-vv --ignore-time-conflict/g" /usr/bin/apt-key
             MY_GPGHOME=$(sudo -E chroot "${ROOTFSDIR}" /bin/mktemp -d /tmp/.gpghomeXXXX)
             echo "${MY_GPGHOME}"
 
             sudo -E chroot "${ROOTFSDIR}" /usr/bin/gpg-agent --homedir "${MY_GPGHOME}" --daemon 
+            find ${APT_KEYS_DIR}/ -type f | while read keyfile
             do
                 kfn="$(basename $keyfile)"
                 cp $keyfile "${ROOTFSDIR}/tmp/$kfn"
                 sudo -E chroot "${ROOTFSDIR}" /usr/bin/apt-key \
                    --keyring ${THIRD_PARTY_APT_KEYRING} --homedir ${MY_GPGHOME} add /tmp/"$kfn"
-                sleep 4
 
                 rm "${ROOTFSDIR}/tmp/$kfn"
             done
+            sleep 4
             sudo -E chroot "${ROOTFSDIR}" /bin/ls -l /usr/bin/pkill
             sudo -E chroot "${ROOTFSDIR}" /usr/bin/pkill -f "${MY_GPGHOME}"  
             sudo -E ps -ef | grep 'gpg'
