@@ -181,10 +181,6 @@ rootfs_postprocess_finalize() {
             "${ROOTFSDIR}/chroot-setup.sh" "cleanup" "${ROOTFSDIR}"
         rm -f "${ROOTFSDIR}/chroot-setup.sh"
 
-        test ! -e "${ROOTFSDIR}/usr/share/doc/qemu-user-static" && \
-            find "${ROOTFSDIR}/usr/bin" \
-                -maxdepth 1 -name 'qemu-*-static' -type f -delete
-
         mountpoint -q '${ROOTFSDIR}/isar-apt' && \
             umount -l ${ROOTFSDIR}/isar-apt
         rmdir --ignore-fail-on-non-empty ${ROOTFSDIR}/isar-apt
@@ -212,6 +208,14 @@ rootfs_postprocess_finalize() {
 EOSUDO
 }
 
+rootfs_clean_qemu() {
+    sudo -s <<'EOSUDO'
+        test ! -e "${ROOTFSDIR}/usr/share/doc/qemu-user-static" && \
+            find "${ROOTFSDIR}/usr/bin" \
+                -maxdepth 1 -name 'qemu-*-static' -type f -delete
+EOSUDO
+}
+
 do_rootfs_postprocess[vardeps] = "${ROOTFS_POSTPROCESS_COMMAND}"
 python do_rootfs_postprocess() {
     # Take care that its correctly mounted:
@@ -226,6 +230,8 @@ python do_rootfs_postprocess() {
     cmds = cmds.split()
     for cmd in cmds:
         bb.build.exec_func(cmd, d)
+    rootfs_clean_qemu()
+
 }
 addtask rootfs_postprocess before do_rootfs
 
