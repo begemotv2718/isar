@@ -158,7 +158,7 @@ python do_image() {
     """Virtual task"""
     pass
 }
-addtask image before do_build after do_image_tools
+addtask image before do_build do_rootfs_postprocess after do_image_tools
 
 python do_deploy() {
     """Virtual task"""
