@@ -212,6 +212,7 @@ rootfs_postprocess_finalize() {
 EOSUDO
 }
 
+
 do_rootfs_postprocess[vardeps] = "${ROOTFS_POSTPROCESS_COMMAND}"
 python do_rootfs_postprocess() {
     # Take care that its correctly mounted:
@@ -223,6 +224,7 @@ python do_rootfs_postprocess() {
     cmds = d.getVar("ROOTFS_POSTPROCESS_COMMAND")
     if cmds is None or not cmds.strip():
         return
+    print ("CMDS:",cmds)
     cmds = cmds.split()
     for cmd in cmds:
         bb.build.exec_func(cmd, d)
