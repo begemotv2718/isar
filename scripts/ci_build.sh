@@ -21,28 +21,12 @@ BUILD_DIR=./build
 BB_ARGS="-v"
 
 TARGETS_SET="\
-            multiconfig:qemuarm-stretch:isar-image-base \
-            multiconfig:qemuarm-buster:isar-image-base \
-            multiconfig:qemuarm64-stretch:isar-image-base \
-            multiconfig:qemui386-stretch:isar-image-base \
-            multiconfig:qemui386-buster:isar-image-base \
-            multiconfig:qemuamd64-stretch:isar-image-base \
-            multiconfig:qemuamd64-buster:isar-image-base \
-            multiconfig:qemuamd64-buster-tgz:isar-image-base \
-            multiconfig:qemumipsel-stretch:isar-image-base \
-            multiconfig:qemumipsel-buster:isar-image-base \
-            multiconfig:nand-ubi-demo-buster:isar-image-ubi \
-            multiconfig:rpi-stretch:isar-image-base"
+            "
           # qemu-user-static of <= buster too old to build that
           # multiconfig:qemuarm64-buster:isar-image-base
 
 CROSS_TARGETS_SET="\
-                  multiconfig:qemuarm-stretch:isar-image-base \
-                  multiconfig:qemuarm-buster:isar-image-base \
-                  multiconfig:qemuarm64-stretch:isar-image-base \
-                  multiconfig:qemuamd64-stretch:isar-image-base \
-                  multiconfig:de0-nano-soc-stretch:isar-image-base \
-                  multiconfig:rpi-stretch:isar-image-base"
+                  multiconfig:de0-nano-soc-stretch:isar-image-base"
 
 REPRO_TARGETS_SET="\
             multiconfig:qemuarm-stretch:isar-image-base \
@@ -102,7 +86,7 @@ do
         BB_ARGS=""
         ;;
     -r|--repro)
-        REPRO_BUILD="1"
+        REPRO_BUILD="0"
         ;;
     *)
         echo "error: invalid parameter '$key', please try '--help' to get list of supported parameters"
