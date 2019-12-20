@@ -230,7 +230,7 @@ python do_rootfs_postprocess() {
     cmds = cmds.split()
     for cmd in cmds:
         bb.build.exec_func(cmd, d)
-    rootfs_clean_qemu()
+    bb.build.exec_func("rootfs_clean_qemu",d)
 
 }
 addtask rootfs_postprocess before do_rootfs
