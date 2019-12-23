@@ -62,6 +62,8 @@ image_configure_accounts[weight] = "3"
 image_configure_accounts() {
     # Create groups
     # Add space to the end of the list:
+    
+    
     list='${@" ".join(d.getVar('IMAGE_ACCOUNTS_GROUPS', True).split())} '
     while true; do
         # Pop first group entry:
@@ -107,6 +109,11 @@ image_configure_accounts() {
                 set -- "$@" --system
             fi
         fi
+
+        #Debug
+        echo "Running find qemu again"
+        find "${ROOTFSDIR}/usr/bin" -maxdepth 1 -name 'qemu-*-static' -type f -print
+        #End debug
 
         # Create or modify groups:
         if [ "y" = "$exists" ]; then

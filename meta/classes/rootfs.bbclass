@@ -189,6 +189,9 @@ rootfs_postprocess_finalize() {
             find "${ROOTFSDIR}/usr/bin" \
                 -maxdepth 1 -name 'qemu-*-static' -type f -delete
 
+        echo "Running find again"
+        find "${ROOTFSDIR}/usr/bin" -maxdepth 1 -name 'qemu-*-static' -type f -print
+
         mountpoint -q '${ROOTFSDIR}/isar-apt' && \
             umount -l ${ROOTFSDIR}/isar-apt
         rmdir --ignore-fail-on-non-empty ${ROOTFSDIR}/isar-apt
