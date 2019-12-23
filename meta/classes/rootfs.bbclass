@@ -57,14 +57,6 @@ rootfs_do_mounts() {
 EOSUDO
 }
 
-rootfs_do_qemu() {
-    if [ '${@repr(d.getVar('ROOTFS_ARCH') == d.getVar('HOST_ARCH'))}' = 'False' ]
-    then
-        test -e '${ROOTFSDIR}/usr/bin/qemu-${QEMU_ARCH}-static' || \
-            sudo cp '/usr/bin/qemu-${QEMU_ARCH}-static' '${ROOTFSDIR}/usr/bin/qemu-${QEMU_ARCH}-static'
-    fi
-}
-
 BOOTSTRAP_SRC = "${DEPLOY_DIR_BOOTSTRAP}/${ROOTFS_DISTRO}-${ROOTFS_ARCH}-${DISTRO_ARCH}"
 BOOTSTRAP_SRC_${ROOTFS_ARCH} = "${DEPLOY_DIR_BOOTSTRAP}/${ROOTFS_DISTRO}-${ROOTFS_ARCH}"
 
@@ -181,10 +173,6 @@ rootfs_postprocess_finalize() {
             "${ROOTFSDIR}/chroot-setup.sh" "cleanup" "${ROOTFSDIR}"
         rm -f "${ROOTFSDIR}/chroot-setup.sh"
 
-        test ! -e "${ROOTFSDIR}/usr/share/doc/qemu-user-static" && \
-            find "${ROOTFSDIR}/usr/bin" \
-                -maxdepth 1 -name 'qemu-*-static' -type f -delete
-
         mountpoint -q '${ROOTFSDIR}/isar-apt' && \
             umount -l ${ROOTFSDIR}/isar-apt
         rmdir --ignore-fail-on-non-empty ${ROOTFSDIR}/isar-apt
@@ -212,13 +200,11 @@ rootfs_postprocess_finalize() {
 EOSUDO
 }
 
+
 do_rootfs_postprocess[vardeps] = "${ROOTFS_POSTPROCESS_COMMAND}"
 python do_rootfs_postprocess() {
     # Take care that its correctly mounted:
     bb.build.exec_func('rootfs_do_mounts', d)
-    # Take care that qemu-*-static is available, since it could have been
-    # removed on a previous execution of this task:
-    bb.build.exec_func('rootfs_do_qemu', d)
 
     cmds = d.getVar("ROOTFS_POSTPROCESS_COMMAND")
     if cmds is None or not cmds.strip():
