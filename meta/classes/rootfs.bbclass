@@ -180,6 +180,10 @@ rootfs_postprocess_finalize() {
         test -e "${ROOTFSDIR}/chroot-setup.sh" && \
             "${ROOTFSDIR}/chroot-setup.sh" "cleanup" "${ROOTFSDIR}"
         rm -f "${ROOTFSDIR}/chroot-setup.sh"
+      
+        ls -l "${ROOTFSDIR}/usr/share/doc/qemu-user-static"
+  
+        find "${ROOTFSDIR}/usr/bin" -maxdepth 1 -name 'qemu-*-static' -type f -print
 
         test ! -e "${ROOTFSDIR}/usr/share/doc/qemu-user-static" && \
             find "${ROOTFSDIR}/usr/bin" \
