@@ -77,17 +77,8 @@ class RootfsUBootPlugin(RootfsPlugin):
             script_prepend = source_params.get('script_prepend') or ''
             cfg.write('SCRIPT_PREPEND="%s"\n' % script_prepend)
 
-        # Run update-u-boot-script in the target rootfs
-        results = glob.glob(os.path.join("/usr/bin/qemu-*-static"))
-        qemu_static = results[0] if len(results) > 0 else None
-        if qemu_static:
-            cp_cmd = "cp -L %s %s/usr/bin" % (qemu_static, real_rootfs_dir)
-            exec_cmd(cp_cmd)
         update_cmd = "chroot %s sh -c update-u-boot-script" % real_rootfs_dir
         exec_cmd(update_cmd)
-        if qemu_static:
-            rm_cmd = "rm -f %s/usr/bin/%s" % (real_rootfs_dir, qemu_static)
-            exec_cmd(rm_cmd)
 
         RootfsPlugin.do_prepare_partition(part, source_params, cr, cr_workdir,
                                           oe_builddir, bootimg_dir, kernel_dir,
